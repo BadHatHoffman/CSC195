@@ -17,6 +17,7 @@ nc::Shape ship;
 //nc::Shape box = { {points}, {color} };
 
 nc::Transform transform{ {400,300}, 4,0 };
+float t{ 0 };
 
 float frametime;
 float roundTime{ 0 };
@@ -32,6 +33,9 @@ bool Update(float dt) //delta time (60 fps) (1 / 60 = 0.016) (60 * 0.01667 = 1.0
 	deltaTime = time - prevTime;
 	prevTime = time;
 	
+	t += dt *5.0f;
+
+
 	frametime = dt;
 	roundTime += dt;
 	if (roundTime >= 5.0f) gameOver = true;
@@ -56,9 +60,13 @@ bool Update(float dt) //delta time (60 fps) (1 / 60 = 0.016) (60 * 0.01667 = 1.0
 	transform.position = transform.position + direction;
 
 	//rotate
-	if (Core::Input::IsPressed('A')) { transform.angle -= dt * 4.0f; }
-	if (Core::Input::IsPressed('D')) { transform.angle += dt * 4.0f; }
+	if (Core::Input::IsPressed('A')) { transform.angle -= (nc::math::DegreesToRadians(360.0f) * dt); }
+	if (Core::Input::IsPressed('D')) { transform.angle += (nc::math::DegreesToRadians(360.0f) * dt); }
 
+	transform.position = nc::math::Clamp(transform.position, { 0,0 }, { 800,600 });
+
+	transform.position.x = nc::math::Clamp(transform.position.x, 0.0f, 800.0f);
+	transform.position.y = nc::math::Clamp(transform.position.y, 0.0f, 600.0f);
 
 	//translate
 	//if (Core::Input::IsPressed(Core::Input::KEY_LEFT)) position += nc::Vector2{ -1.0f, 0.0f } * speed;
@@ -80,6 +88,14 @@ void Draw(Core::Graphics& graphics)
 	graphics.DrawString(10, 10, std::to_string(frametime).c_str());
 	graphics.DrawString(10, 20, std::to_string(1.0f/frametime).c_str());
 	graphics.DrawString(10, 30, std::to_string(deltaTime / 1000.0f).c_str());
+
+	float v = (std::sin(t) + 1.0f);
+
+	nc::Color c = nc::math::Lerp(nc::Color{ 0,0,1 }, nc::Color{ 1,0,0 }, t);
+	graphics.SetColor(c);
+
+	nc::Vector2 p = nc::math::Lerp(nc::Vector2{ 400,300 }, nc::Vector2{ 400, 100 }, v);
+	graphics.DrawString(p.x, p.y, "Last Starfighter");
 
 	if (gameOver) graphics.DrawString(400, 300, "Game Over");
 

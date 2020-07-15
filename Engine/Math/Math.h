@@ -33,7 +33,7 @@ namespace nc
 		inline nc::Vector2 Clamp<nc::Vector2>(nc::Vector2 v, nc::Vector2 min, nc::Vector2 max)
 		{
 			v.x = Clamp(v.x, min.x, max.x);
-			v.x = Clamp(v.y, min.y, max.y);
+			v.y = Clamp(v.y, min.y, max.y);
 
 			return v;
 		}

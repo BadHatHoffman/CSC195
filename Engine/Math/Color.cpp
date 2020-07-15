@@ -20,6 +20,7 @@ namespace nc
 			c.g = std::stof(cg);
 
 			std::string cb = line.substr(line.find(",") + 1, line.find("}") - 1);
+			c.b = std::stof(cb);
 		}
 
 		return stream;

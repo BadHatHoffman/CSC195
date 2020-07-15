@@ -17,10 +17,10 @@ namespace nc
 
 		void Set(float r, float g, float b) { this->r = r; this->g = g; this->b = b; }
 
-		Color operator + (const Color& c) const { r + c.r; g + c.g; b + c.b; }
-		Color operator - (const Color& c) const { r - c.r; g - c.g; b - c.b; }
-		Color operator * (const Color& c) const { r * c.r; g * c.g; b * c.b; }
-		Color operator / (const Color& c) const { r / c.r; g / c.g; b / c.b; }
+		Color operator + (const Color& c) const { return { r + c.r, g + c.g, b + c.b }; }
+		Color operator - (const Color& c) const { return { r - c.r, g - c.g, b - c.b }; }
+		Color operator * (const Color& c) const { return { r * c.r, g * c.g, b * c.b }; }
+		Color operator / (const Color& c) const { return { r / c.r, g / c.g, b / c.b }; }
 															
 		Color operator + (float s) const { return Color{ r + s, g + s, b + s }; }
 		Color operator - (float s) const { return Color{ r - s, g - s, b - s }; }
@@ -37,9 +37,9 @@ namespace nc
 		Color& operator *= (float s) { r *= s; g *= s; b *= s; return *this; }
 		Color& operator /= (float s) { r /= s; g /= s; b /= s; return *this; }
 
+		friend std::istream& operator >> (std::istream& stream, Color& c);
 		COLORREF Pack888() const;
 
-		friend std::istream& operator >> (std::istream& stream, Color& c);
 
 		//operator COLORREF() const
 		operator COLORREF() const { return Pack888(); }

@@ -3,18 +3,18 @@
 
 
 
-class Enemy : public nc::Actor
+class Projectile : public nc::Actor
 {
 public:
-	Enemy() = default;
-	virtual ~Enemy() {}
+	Projectile() = default;
+	virtual ~Projectile() {}
 
-
-	virtual eType GetType() { return eType::ENEMY; }
+	virtual eType GetType() { return eType::PROJECTILE; }
 
 	virtual bool Load(const std::string& filename) override;
 
 	virtual void Update(float dt) override;
+
 	virtual void OnCollission(Actor* actor) {}
 
 	virtual void Draw(Core::Graphics& graphics)override;

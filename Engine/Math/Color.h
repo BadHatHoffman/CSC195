@@ -5,8 +5,10 @@
 
 namespace nc
 {
+
 	struct Color
 	{
+
 		float r, g, b;
 
 		Color() : r{ 0 }, g{ 0 }, b{ 0 } {}
@@ -43,6 +45,11 @@ namespace nc
 
 		//operator COLORREF() const
 		operator COLORREF() const { return Pack888(); }
+		static const Color red;
+		static const Color white;
+		static const Color green;
+		static const Color blue;
+		static const Color yellow;
 	};
 
 	inline COLORREF Color::Pack888() const
@@ -53,4 +60,6 @@ namespace nc
 
 		return (_r)|(_g << 8)|(_b << 16); //RGB()
 	}
+
+
 }

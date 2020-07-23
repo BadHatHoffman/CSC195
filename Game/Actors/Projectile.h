@@ -15,16 +15,16 @@ public:
 
 	virtual void Update(float dt) override;
 
-	virtual void OnCollission(Actor* actor) {}
+	virtual void OnCollission(Actor* actor);
 
 	virtual void Draw(Core::Graphics& graphics)override;
 
 	void setThrust(float thrust) { m_thrust = thrust; }
 
-	void SetTarget(Actor* actor) { m_target = actor; }
+	
 protected:
 	float m_thrust{ 0.0f };
-	Actor* m_target{ nullptr };
+	float m_lifetime{};
 };
 
 

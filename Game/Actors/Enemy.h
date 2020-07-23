@@ -15,7 +15,7 @@ public:
 	virtual bool Load(const std::string& filename) override;
 
 	virtual void Update(float dt) override;
-	virtual void OnCollission(Actor* actor) {}
+	virtual void OnCollission(Actor* actor);
 
 	virtual void Draw(Core::Graphics& graphics)override;
 

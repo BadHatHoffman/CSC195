@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "Projectile.h"
 #include "Object/Scene.h"
+#include "../Game.h"
+#include "Graphics/ParticleSystem.h"
 #include "Math/Math.h"
 #include <fstream>
 #include "Math/Vector2.h"
@@ -45,7 +47,6 @@ void Player::Update(float dt)
 	nc::Vector2 force;
 	if (Core::Input::IsPressed('W')) { force = nc::Vector2::forward * m_thrust; }
 	force = nc::Vector2::Rotate(force, m_transform.angle);
-	force += nc::Vector2{ 0,100 };
 
 	m_velocity += (force * dt);
 	m_velocity *= 0.99f;
@@ -58,6 +59,13 @@ void Player::Update(float dt)
 	if (Core::Input::IsPressed('D')) { m_transform.angle += (nc::math::DegreesToRadians(m_rotationRate) * dt); }
 
 	m_transform.position = nc::math::Clamp(m_transform.position, {0,0}, {800,600});
+	 
+	if (force.LengthSqr() > 0)
+	{
+		g_particleSystem.Create(m_transform.position, m_transform.angle + nc::math::PI, 20, 1, nc::Color{ 1,1,1 }, 1, 100, 200);
+	}
+
+
 
 	m_transform.Update();
 
@@ -66,4 +74,12 @@ void Player::Update(float dt)
 void Player::Draw(Core::Graphics& graphics)
 {
 	m_shape.Draw(graphics, m_transform);
+}
+
+void Player::OnCollission(Actor* actor)
+{
+	if (actor->GetType() == eType::ENEMY)
+	{
+		m_scene->GetGame()->SetState(Game::eState::GAME_OVER);
+	}
 }

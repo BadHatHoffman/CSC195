@@ -3,9 +3,11 @@
 #include <vector>
 #include <list>
 
+class Game;
 
 namespace nc
 {
+
 	class Scene
 	{
 	public:
@@ -19,36 +21,39 @@ namespace nc
 		void RemoveActor(class Actor* actor);
 
 		template <typename T>
-		nc::Actor* GetActor()
+		T* GetActor()
 		{
-			nc::Actor* result{ nullptr };
-
-			for (nc::Actor* actor : m_actors)
+			T* actor = { nullptr };
+			for (Actor* a : m_actors)
 			{
-				result = dynamic_cast<T*>(actor);
-				if (result) break;
+				actor = dynamic_cast<T*>(a);
+				if (actor) break;
 			}
 
-			return result;
+			return actor;
 		}
 
 		template <typename T>
-		std::vector<nc::Actor*> GetActors()
+		std::vector<T*> GetActors()
 		{
-			std::vector<nc::Actor*> results;
-
-			for (nc::Actor* actor : m_actors)
+			std::vector<T*> actors;
+			for (Actor* a : m_actors)
 			{
-				T* result = dynamic_cast<T*>(actor);
-				if (result)
+				T* actor = dynamic_cast<T*>(a);
+				if (actor)
 				{
-					results.push_back(result);
+					actors.push_back(actor);
 				}
 			}
-			return results;
+
+			return actors;
 		}
+			
+		void SetGame(Game* game) { m_game = game; }
+		Game* GetGame() { return m_game; }
 
 	private:
+		Game* m_game;
 		std::list<class Actor*> m_actors;
 	};
 }

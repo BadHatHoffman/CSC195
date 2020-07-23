@@ -1,6 +1,9 @@
 #include "Enemy.h"
 #include "Math/Math.h"
 #include "Object/Scene.h"
+#include "Graphics/ParticleSystem.h"
+#include "Object/Scene.h"
+#include "../Game.h"
 #include <fstream>
 
 
@@ -45,6 +48,12 @@ void Enemy::OnCollission(Actor* actor)
     if (actor->GetType() == eType::PROJECTILE)
     {
         m_destroy = true;
+
+        //get score
+        m_scene->GetGame()->AddPoints(100);
+
+        nc::Color colors[] = { nc::Color::white, nc::Color::blue, nc::Color::yellow };
+        nc::Color color = colors[rand() % 3];
+        g_particleSystem.Create(m_transform.position, 0, 180, 30, color, 1, 100, 200);
     }
 }
-
